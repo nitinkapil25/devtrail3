@@ -1,0 +1,8 @@
+node_modules
+dist
+.DS_Store
+server/public
+client/public/favicon.png
+vite.config.ts.*
+*.tar.gz
+.env
