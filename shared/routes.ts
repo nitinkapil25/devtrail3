@@ -72,35 +72,47 @@ export const api = {
       },
     },
   },
-  projects: {
-    list: {
-      method: 'GET' as const,
-      path: '/api/projects',
-      responses: {
-        200: z.array(z.custom<typeof projects.$inferSelect>()),
-        401: errorSchemas.unauthorized,
-      },
-    },
-    create: {
-      method: 'POST' as const,
-      path: '/api/projects',
-      input: insertProjectSchema,
-      responses: {
-        201: z.custom<typeof projects.$inferSelect>(),
-        400: errorSchemas.validation,
-        401: errorSchemas.unauthorized,
-      },
-    },
-    get: {
-      method: 'GET' as const,
-      path: '/api/projects/:id',
-      responses: {
-        200: z.custom<typeof projects.$inferSelect>(),
-        404: errorSchemas.notFound,
-        401: errorSchemas.unauthorized,
-      },
+ projects: {
+  list: {
+    method: 'GET' as const,
+    path: '/api/projects',
+    responses: {
+      200: z.array(z.custom<typeof projects.$inferSelect>()),
+      401: errorSchemas.unauthorized,
     },
   },
+
+  create: {
+    method: 'POST' as const,
+    path: '/api/projects',
+    input: insertProjectSchema,
+    responses: {
+      201: z.custom<typeof projects.$inferSelect>(),
+      400: errorSchemas.validation,
+      401: errorSchemas.unauthorized,
+    },
+  },
+
+  get: {
+    method: 'GET' as const,
+    path: '/api/projects/:id',
+    responses: {
+      200: z.custom<typeof projects.$inferSelect>(),
+      404: errorSchemas.notFound,
+      401: errorSchemas.unauthorized,
+    },
+  },
+
+  delete: {   // 🔥 YE ADD KIYA
+    method: 'DELETE' as const,
+    path: '/api/projects/:id',
+    responses: {
+      204: z.void(),
+      401: errorSchemas.unauthorized,
+      404: errorSchemas.notFound,
+    },
+  },
+},
   tags: {
     list: {
       method: 'GET' as const,
@@ -110,6 +122,14 @@ export const api = {
       },
     },
   },
+  delete: {
+  method: "DELETE",
+  path: "/api/projects/:id",
+  responses: {
+    200: z.any(),
+    404: z.any(),
+  },
+},
   ai: {
     generateSummary: {
       method: 'POST' as const,

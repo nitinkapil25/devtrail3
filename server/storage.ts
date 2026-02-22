@@ -7,6 +7,7 @@ import {
 import { authStorage } from "./replit_integrations/auth";
 import { chatStorage } from "./replit_integrations/chat";
 
+
 export interface IStorage {
   // Entries
   getEntries(userId: string): Promise<(Entry & { tags: string[], projects: Project[] })[]>;
@@ -17,7 +18,7 @@ export interface IStorage {
 
   // Projects
   getProjects(userId: string): Promise<Project[]>;
-  getProject(id: number): Promise<Project | undefined>;
+ getProject(id: number, userId: string): Promise<Project | undefined>;
   createProject(userId: string, project: InsertProject): Promise<Project>;
 
   // Tags
@@ -128,10 +129,19 @@ export class DatabaseStorage implements IStorage {
     return db.select().from(projects).where(eq(projects.userId, userId)).orderBy(desc(projects.createdAt));
   }
 
-  async getProject(id: number): Promise<Project | undefined> {
-    const [project] = await db.select().from(projects).where(eq(projects.id, id));
-    return project;
-  }
+  async getProject(id: number, userId: string): Promise<Project | undefined> {
+  const [project] = await db
+    .select()
+    .from(projects)
+    .where(
+      and(
+        eq(projects.id, id),
+        eq(projects.userId, userId)
+      )
+    );
+
+  return project;
+}
 
   async createProject(userId: string, project: InsertProject): Promise<Project> {
     const [newProject] = await db.insert(projects).values({ ...project, userId }).returning();
@@ -156,6 +166,18 @@ export class DatabaseStorage implements IStorage {
 
     return existingTags;
   }
+  
+
+  async deleteProject(id: number, userId: string): Promise<void> {
+  await db
+    .delete(projects)
+    .where(
+      and(
+        eq(projects.id, id),
+        eq(projects.userId, userId)
+      )
+    );
+}
 }
 
 // Import sql for 'IN' clause

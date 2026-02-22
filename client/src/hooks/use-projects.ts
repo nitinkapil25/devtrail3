@@ -1,6 +1,8 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { api, buildUrl } from "@shared/routes";
-import { type InsertProject } from "@shared/schema";
+import { type InsertProject } from "@shared/schema";  
+import type { Project } from "@shared/schema";
+
 
 export function useProjects() {
   return useQuery({
@@ -14,14 +16,20 @@ export function useProjects() {
 }
 
 export function useProject(id: number) {
-  return useQuery({
-    queryKey: [api.projects.get.path, id],
+  return useQuery<Project | null>({
+    queryKey: ["project", id],
     queryFn: async () => {
-      const url = buildUrl(api.projects.get.path, { id });
-      const res = await fetch(url, { credentials: "include" });
+      const res = await fetch(`/api/projects/${id}`, {
+        credentials: "include",
+      });
+
       if (res.status === 404) return null;
       if (!res.ok) throw new Error("Failed to fetch project");
-      return api.projects.get.responses[200].parse(await res.json());
+
+      const data = await res.json();   // ✅ FIX
+      console.log("PROJECT API DATA:", data);
+
+      return data;
     },
     enabled: !!id,
   });
@@ -44,6 +52,29 @@ export function useCreateProject() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [api.projects.list.path] });
+    },
+  });
+}
+
+
+export function useDeleteProject() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (id: number) => {
+      const res = await fetch(`/api/projects/${id}`, {
+        method: "DELETE",
+        credentials: "include",
+      });
+
+      if (!res.ok) throw new Error("Failed to delete project");
+      return true;
+    },
+
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [api.projects.list.path],
+      });
     },
   });
 }

@@ -91,6 +91,20 @@ export async function registerRoutes(
     const projects = await storage.getProjects(userId);
     res.json(projects);
   });
+  app.get(api.projects.get.path, requireAuth, async (req: any, res) => {
+  const userId = req.user.claims.sub;
+
+  const project = await storage.getProject(
+  Number(req.params.id),
+  userId
+);
+
+  if (!project) {
+    return res.status(404).json({ message: "Project not found" });
+  }
+
+  res.json(project);
+});
 
   app.post(api.projects.create.path, requireAuth, async (req: any, res) => {
     try {
@@ -108,6 +122,14 @@ export async function registerRoutes(
       throw err;
     }
   });
+
+  app.delete(api.projects.delete.path, requireAuth, async (req: any, res) => {
+  const userId = req.user.claims.sub;
+
+  await storage.deleteProject(Number(req.params.id), userId);
+
+  res.status(204).send();
+});
 
   // Tags
   app.get(api.tags.list.path, requireAuth, async (req, res) => {

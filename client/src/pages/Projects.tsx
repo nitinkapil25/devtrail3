@@ -3,10 +3,12 @@ import { Navigation } from "@/components/Navigation";
 import { CreateProjectDialog } from "@/components/CreateProjectDialog";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { FolderGit2, Github, ExternalLink, Loader2 } from "lucide-react";
+import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 
 export default function Projects() {
   const { data: projects, isLoading } = useProjects();
+  const [, navigate] = useLocation();
 
   return (
     <div className="min-h-screen bg-background text-foreground flex">
@@ -52,9 +54,14 @@ export default function Projects() {
                     <p className="text-sm text-muted-foreground line-clamp-3 mb-4">
                       {project.description || "No description provided."}
                     </p>
-                    <Button variant="outline" size="sm" className="w-full border-white/10 hover:bg-white/5 group-hover:border-primary/30">
-                      View Details <ExternalLink className="w-3 h-3 ml-2" />
-                    </Button>
+                    <Button
+  variant="outline"
+  size="sm"
+  className="w-full border-white/10 hover:bg-white/5 group-hover:border-primary/30"
+  onClick={() => navigate(`/projects/${project.id}`)}
+>
+  View Details <ExternalLink className="w-3 h-3 ml-2" />
+</Button>
                   </CardContent>
                 </Card>
               ))}
