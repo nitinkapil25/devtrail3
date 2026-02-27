@@ -177,7 +177,7 @@ export class DatabaseStorage implements IStorage {
         eq(projects.userId, userId)
       )
     );
-}
+} 
 }
 
 // Import sql for 'IN' clause
