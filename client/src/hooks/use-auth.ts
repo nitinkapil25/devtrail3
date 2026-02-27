@@ -1,47 +1,66 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import type { User } from "@shared/models/auth";
+import { useClerk, useUser } from "@clerk/clerk-react";
+import { useState } from "react";
 
-async function fetchUser(): Promise<User | null> {
-  const response = await fetch("/api/auth/user", {
-    credentials: "include",
-  });
-
-  if (response.status === 401) {
-    return null;
-  }
-
-  if (!response.ok) {
-    throw new Error(`${response.status}: ${response.statusText}`);
-  }
-
-  return response.json();
-}
-
-async function logout(): Promise<void> {
-  window.location.href = "/api/logout";
-}
+type AuthUser = {
+  id: string;
+  email: string | null;
+  firstName: string | null;
+  lastName: string | null;
+  profileImageUrl: string | null;
+  bio: string | null;
+};
 
 export function useAuth() {
-  const queryClient = useQueryClient();
-  const { data: user, isLoading } = useQuery<User | null>({
-    queryKey: ["/api/auth/user"],
-    queryFn: fetchUser,
-    retry: false,
-    staleTime: 1000 * 60 * 5, // 5 minutes
-  });
+  const { isLoaded, isSignedIn, user: clerkUser } = useUser();
+  const { signOut } = useClerk();
+  const [isUpdatingBio, setIsUpdatingBio] = useState(false);
 
-  const logoutMutation = useMutation({
-    mutationFn: logout,
-    onSuccess: () => {
-      queryClient.setQueryData(["/api/auth/user"], null);
-    },
-  });
+  const bioFromMetadata =
+    typeof clerkUser?.unsafeMetadata?.bio === "string"
+      ? clerkUser.unsafeMetadata.bio
+      : null;
+
+  const user: AuthUser | null = clerkUser
+    ? {
+        id: clerkUser.id,
+        email: clerkUser.primaryEmailAddress?.emailAddress ?? null,
+        firstName: clerkUser.firstName ?? null,
+        lastName: clerkUser.lastName ?? null,
+        profileImageUrl: clerkUser.imageUrl ?? null,
+        bio: bioFromMetadata,
+      }
+    : null;
+
+  const logout = () => {
+    void signOut({ redirectUrl: "/" });
+  };
+
+  const updateBio = async (bio: string) => {
+    if (!clerkUser) return false;
+
+    try {
+      setIsUpdatingBio(true);
+      await clerkUser.update({
+        unsafeMetadata: {
+          ...(clerkUser.unsafeMetadata ?? {}),
+          bio,
+        },
+      });
+      return true;
+    } catch {
+      return false;
+    } finally {
+      setIsUpdatingBio(false);
+    }
+  };
 
   return {
     user,
-    isLoading,
-    isAuthenticated: !!user,
-    logout: logoutMutation.mutate,
-    isLoggingOut: logoutMutation.isPending,
+    isLoading: !isLoaded,
+    isAuthenticated: isLoaded && isSignedIn,
+    logout,
+    updateBio,
+    isUpdatingBio,
+    isLoggingOut: false,
   };
 }

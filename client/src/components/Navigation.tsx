@@ -1,13 +1,27 @@
 import { Link, useLocation } from "wouter";
-import { LayoutDashboard, Book, FolderGit2, LogOut, User, Code2 } from "lucide-react";
+import {
+  LayoutDashboard,
+  Book,
+  FolderGit2,
+  LogOut,
+  User,
+  Code2,
+  ChevronDown,
+} from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
 import { cn } from "@/lib/utils";
-import { Button } from "./ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
 
 export function Navigation() {
-  const [location] = useLocation();
-  const { user, logout } = useAuth();
+  const [location, navigate] = useLocation();
+  const { user, logout, isLoggingOut } = useAuth();
 
   const navItems = [
     { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -43,31 +57,53 @@ export function Navigation() {
       </div>
 
       <div className="p-4 border-t border-white/5 space-y-4">
-        <Link href="/profile" className={cn(
-          "flex items-center gap-3 p-2 rounded-xl hover:bg-white/5 transition-all cursor-pointer group",
-          location === "/profile" && "bg-white/5"
-        )}>
-          <Avatar className="w-10 h-10 border border-white/10 group-hover:border-primary/50 transition-colors">
-            {user?.profileImageUrl && <AvatarImage src={user.profileImageUrl} />}
-            <AvatarFallback className="bg-primary/20 text-primary">
-              {user?.firstName?.[0] || <User className="w-4 h-4" />}
-            </AvatarFallback>
-          </Avatar>
-          <div className="hidden md:block overflow-hidden">
-            <p className="text-sm font-medium truncate">{user?.firstName || "Developer"}</p>
-            <p className="text-xs text-muted-foreground truncate">View Profile</p>
-          </div>
-        </Link>
-        
-        <Button 
-          variant="ghost" 
-          size="sm"
-          onClick={() => logout()}
-          className="w-full justify-start text-muted-foreground hover:text-destructive hover:bg-destructive/10 hidden md:flex"
-        >
-          <LogOut className="w-4 h-4 mr-2" />
-          Sign Out
-        </Button>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <button
+              type="button"
+              className={cn(
+                "w-full flex items-center gap-3 p-2 rounded-xl hover:bg-white/5 transition-all cursor-pointer group text-left",
+                location === "/profile" && "bg-white/5"
+              )}
+            >
+              <Avatar className="w-10 h-10 border border-white/10 group-hover:border-primary/50 transition-colors">
+                {user?.profileImageUrl && <AvatarImage src={user.profileImageUrl} />}
+                <AvatarFallback className="bg-primary/20 text-primary">
+                  {user?.firstName?.[0] || <User className="w-4 h-4" />}
+                </AvatarFallback>
+              </Avatar>
+              <div className="hidden md:block overflow-hidden flex-1">
+                <p className="text-sm font-medium truncate">{user?.firstName || "Developer"}</p>
+                <p className="text-xs text-muted-foreground truncate">Open account menu</p>
+              </div>
+              <ChevronDown className="w-4 h-4 text-muted-foreground hidden md:block" />
+            </button>
+          </DropdownMenuTrigger>
+
+          <DropdownMenuContent align="end" className="w-64">
+            <div className="px-2 py-1.5">
+              <p className="text-sm font-medium truncate">
+                {[user?.firstName, user?.lastName].filter(Boolean).join(" ") || "Developer"}
+              </p>
+              <p className="text-xs text-muted-foreground truncate">
+                {user?.email || "No email available"}
+              </p>
+            </div>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={() => navigate("/profile")} className="cursor-pointer">
+              <User className="w-4 h-4 mr-2" />
+              View Profile
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => logout()}
+              className="cursor-pointer text-destructive focus:text-destructive"
+              disabled={isLoggingOut}
+            >
+              <LogOut className="w-4 h-4 mr-2" />
+              {isLoggingOut ? "Signing Out..." : "Sign Out"}
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </nav>
   );

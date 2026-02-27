@@ -1,15 +1,45 @@
+import { useEffect, useState } from "react";
 import { useAuth } from "@/hooks/use-auth";
 import { useEntries } from "@/hooks/use-entries";
 import { Navigation } from "@/components/Navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { User, MapPin, Link as LinkIcon, CalendarDays, Loader2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { useToast } from "@/hooks/use-toast";
+import { User, MapPin, Link as LinkIcon, CalendarDays, Loader2, Pencil } from "lucide-react";
 import { format } from "date-fns";
 
 export default function Profile() {
-  const { user, isLoading } = useAuth();
+  const { user, isLoading, updateBio, isUpdatingBio } = useAuth();
   const { data: entries } = useEntries();
+  const { toast } = useToast();
+  const [isEditingBio, setIsEditingBio] = useState(false);
+  const [bioDraft, setBioDraft] = useState("");
+
+  useEffect(() => {
+    setBioDraft(user?.bio ?? "");
+  }, [user?.bio]);
+
+  const handleSaveBio = async () => {
+    const ok = await updateBio(bioDraft.trim());
+
+    if (!ok) {
+      toast({
+        title: "Unable to save bio",
+        description: "Please try again.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    toast({
+      title: "Bio updated",
+      description: "Your profile bio was saved.",
+    });
+    setIsEditingBio(false);
+  };
 
   if (isLoading) {
     return (
@@ -90,10 +120,64 @@ export default function Profile() {
             {/* Main Content */}
             <div className="md:col-span-2 space-y-6">
               <div className="bg-card/40 border border-white/5 rounded-2xl p-6">
-                <h2 className="text-xl font-bold mb-4">About</h2>
-                <p className="text-muted-foreground leading-relaxed">
-                  Passionate developer tracking my learning journey. Documenting bugs, solutions, and daily wins to become a better engineer.
-                </p>
+                <div className="flex items-center justify-between mb-4">
+                  <h2 className="text-xl font-bold">About</h2>
+                  {!isEditingBio && (
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      className="border-white/10 hover:bg-white/5"
+                      onClick={() => setIsEditingBio(true)}
+                    >
+                      <Pencil className="w-4 h-4 mr-2" />
+                      Edit
+                    </Button>
+                  )}
+                </div>
+
+                {isEditingBio ? (
+                  <div className="space-y-3">
+                    <Textarea
+                      value={bioDraft}
+                      onChange={(e) => setBioDraft(e.target.value)}
+                      placeholder="Tell people a little about yourself..."
+                      maxLength={300}
+                      className="min-h-[120px] bg-background/60 border-white/10"
+                    />
+                    <div className="flex items-center justify-between gap-3">
+                      <p className="text-xs text-muted-foreground">
+                        {bioDraft.length}/300
+                      </p>
+                      <div className="flex gap-2">
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          onClick={() => {
+                            setBioDraft(user?.bio ?? "");
+                            setIsEditingBio(false);
+                          }}
+                          disabled={isUpdatingBio}
+                        >
+                          Cancel
+                        </Button>
+                        <Button
+                          type="button"
+                          onClick={handleSaveBio}
+                          disabled={isUpdatingBio}
+                        >
+                          {isUpdatingBio ? "Saving..." : "Save Bio"}
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                ) : user?.bio ? (
+                  <p className="text-muted-foreground leading-relaxed">{user.bio}</p>
+                ) : (
+                  <p className="text-muted-foreground leading-relaxed">
+                    No bio yet.
+                  </p>
+                )}
               </div>
 
               <div className="bg-card/40 border border-white/5 rounded-2xl p-6">
