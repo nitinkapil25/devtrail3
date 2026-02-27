@@ -90,7 +90,7 @@ export default function Dashboard() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-8">
             {/* Weekly Report */}
-            <Card className="bg-card/40 border-white/5 shadow-xl">
+            <Card className="bg-card border-border shadow-xl">
               <CardHeader className="flex flex-row items-center justify-between gap-1">
                 <CardTitle className="flex items-center gap-2">
                   <Activity className="w-5 h-5 text-primary" /> Weekly Report
@@ -127,7 +127,7 @@ export default function Dashboard() {
             </Card>
 
             {/* Activity Chart */}
-            <Card className="bg-card/40 border-white/5 shadow-xl">
+            <Card className="bg-card border-border shadow-xl">
               <CardHeader>
                 <CardTitle>Learning Activity</CardTitle>
               </CardHeader>
@@ -150,12 +150,12 @@ export default function Dashboard() {
                         tickFormatter={(value) => `${value}m`} 
                       />
                       <ReTooltip 
-                        contentStyle={{ backgroundColor: '#1e1e1e', border: '1px solid #333', borderRadius: '8px' }}
-                        itemStyle={{ color: '#fff' }}
+                        contentStyle={{ backgroundColor: '#ffffff', border: '1px solid #e5e7eb', borderRadius: '8px' }}
+                        itemStyle={{ color: '#111827' }}
                       />
                       <Bar dataKey="minutes" radius={[4, 4, 0, 0]}>
                         {last7Days.map((entry, index) => (
-                          <Cell key={`cell-${index}`} fill={entry.minutes > 0 ? "hsl(263, 70%, 50%)" : "rgba(255,255,255,0.05)"} />
+                          <Cell key={`cell-${index}`} fill={entry.minutes > 0 ? "hsl(263, 70%, 50%)" : "rgba(15,23,42,0.08)"} />
                         ))}
                       </Bar>
                     </BarChart>
@@ -166,7 +166,7 @@ export default function Dashboard() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {/* Bug Detector */}
-              <Card className="bg-card/40 border-white/5 shadow-xl">
+              <Card className="bg-card border-border shadow-xl">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <Bug className="w-5 h-5 text-red-400" /> Bug Pattern Detector
@@ -193,7 +193,7 @@ export default function Dashboard() {
               </Card>
 
               {/* Skill Heatmap */}
-              <Card className="bg-card/40 border-white/5 shadow-xl">
+              <Card className="bg-card border-border shadow-xl">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <TrendingUp className="w-5 h-5 text-green-400" /> Skill Progress
@@ -208,7 +208,7 @@ export default function Dashboard() {
                         <Badge 
                           key={i} 
                           variant="secondary"
-                          className={`bg-primary/${skill.level * 20} border-primary/20 text-white`}
+                          className={`bg-primary/${skill.level * 20} border-primary/20 text-foreground`}
                         >
                           {skill.name} (L{skill.level})
                         </Badge>
@@ -258,7 +258,7 @@ export default function Dashboard() {
             <div className="space-y-4">
               <h3 className="font-semibold text-lg">Recent Entries</h3>
               {entries?.slice(0, 5).map((entry) => (
-                <div key={entry.id} className="p-4 rounded-xl bg-card/40 border border-white/5 hover:border-white/10 transition-colors">
+                <div key={entry.id} className="p-4 rounded-xl bg-card border border-border hover:border-primary/25 transition-colors">
                   <div className="flex justify-between mb-1">
                     <span className="text-sm text-muted-foreground">{format(new Date(entry.date), "MMM d")}</span>
                     <span className="text-xs text-primary">{entry.timeSpent}m</span>
@@ -276,10 +276,10 @@ export default function Dashboard() {
 
 function StatCard({ icon: Icon, title, value, trend, color }: any) {
   return (
-    <Card className="bg-card/40 border-white/5 hover:bg-card/60 transition-colors">
+    <Card className="bg-card border-border hover:bg-accent/30 transition-colors">
       <CardContent className="p-6">
         <div className="flex items-center justify-between">
-          <div className={`p-2 rounded-lg bg-white/5 ${color}`}>
+          <div className={`p-2 rounded-lg bg-secondary/80 ${color}`}>
             <Icon className="w-5 h-5" />
           </div>
           {trend && <span className="text-xs text-muted-foreground">{trend}</span>}
@@ -299,3 +299,4 @@ function calculateStreak(entries: any[]) {
   // In a real app, sort by date and check consecutive days
   return 3; // Placeholder
 }
+

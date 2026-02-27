@@ -57,7 +57,7 @@ export default function Journal() {
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
             <Input 
               placeholder="Search by keyword or tag..." 
-              className="pl-10 bg-card/40 border-white/10 rounded-xl h-12 focus:border-primary/50 transition-all"
+              className="pl-10 bg-card border-border rounded-xl h-12 focus:border-primary/50 transition-all"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
@@ -70,7 +70,7 @@ export default function Journal() {
           ) : (
             <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
               {filteredEntries?.length === 0 ? (
-                <div className="text-center py-20 bg-card/20 rounded-2xl border border-white/5 border-dashed">
+                <div className="text-center py-20 bg-card rounded-2xl border border-border border-dashed">
                   <p className="text-muted-foreground">No entries found. Start writing!</p>
                 </div>
               ) : (
@@ -90,3 +90,4 @@ export default function Journal() {
     </div>
   );
 }
+

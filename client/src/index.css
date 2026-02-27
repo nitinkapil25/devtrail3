@@ -8,34 +8,34 @@
   --font-sans: 'Inter', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 
-  /* DevTrail Dark Theme Palette */
-  --background: 224 71% 4%;
-  --foreground: 213 31% 91%;
+  /* DevTrail Bright Theme Palette */
+  --background: 48 100% 97%;
+  --foreground: 220 39% 18%;
   
-  --card: 224 71% 5%;
-  --card-foreground: 213 31% 91%;
+  --card: 0 0% 100%;
+  --card-foreground: 220 39% 18%;
   
-  --popover: 224 71% 5%;
-  --popover-foreground: 213 31% 91%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 220 39% 18%;
   
-  --primary: 263 70% 50%;
-  --primary-foreground: 210 40% 98%;
+  --primary: 24 96% 54%;
+  --primary-foreground: 0 0% 100%;
   
-  --secondary: 222 47% 11%;
-  --secondary-foreground: 210 40% 98%;
+  --secondary: 194 90% 93%;
+  --secondary-foreground: 220 39% 18%;
   
-  --muted: 223 47% 11%;
-  --muted-foreground: 215.4 16.3% 56.9%;
+  --muted: 44 100% 94%;
+  --muted-foreground: 220 18% 40%;
   
-  --accent: 216 34% 17%;
-  --accent-foreground: 210 40% 98%;
+  --accent: 152 65% 90%;
+  --accent-foreground: 220 39% 18%;
   
   --destructive: 0 63% 31%;
   --destructive-foreground: 210 40% 98%;
   
-  --border: 216 34% 17%;
-  --input: 216 34% 17%;
-  --ring: 263 70% 50%;
+  --border: 33 66% 84%;
+  --input: 33 66% 84%;
+  --ring: 24 96% 54%;
   
   --radius: 0.75rem;
 }
@@ -46,9 +46,12 @@
   }
   body {
     @apply bg-background text-foreground font-sans antialiased selection:bg-primary/30;
+    background-image: radial-gradient(circle at 0% 0%, hsl(194 100% 90% / 0.55), transparent 38%),
+      radial-gradient(circle at 100% 100%, hsl(39 100% 80% / 0.45), transparent 42%);
+    background-attachment: fixed;
   }
   h1, h2, h3, h4, h5, h6 {
-    @apply font-bold tracking-tight text-white;
+    @apply font-bold tracking-tight text-foreground;
   }
 }
 
@@ -58,11 +61,11 @@
   }
   
   .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-white via-white/80 to-white/60;
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary via-amber-500 to-orange-500;
   }
 
   .text-gradient-primary {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary via-purple-400 to-indigo-400;
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary via-orange-500 to-amber-400;
   }
 
   .animate-in {
@@ -92,5 +95,5 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-white/10 rounded-full hover:bg-white/20 transition-colors;
+  @apply bg-primary/50 rounded-full hover:bg-primary/70 transition-colors;
 }

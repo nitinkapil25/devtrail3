@@ -125,11 +125,11 @@ export function CreateEntryDialog({ existingEntry, open: controlledOpen, onOpenC
           <div className="space-y-4">
             <div className="space-y-2">
               <Label>Core Learning</Label>
-              <Textarea 
-                {...form.register("content")} 
-                placeholder="I learned how to..." 
-                className="bg-background/50 border-white/10 focus:border-primary min-h-[100px]"
-              />
+                <Textarea 
+                  {...form.register("content")} 
+                  placeholder="I learned how to..." 
+                  className="bg-background/50 border-border focus:border-primary min-h-[100px]"
+                />
               {form.formState.errors.content && (
                 <p className="text-xs text-destructive">{form.formState.errors.content.message}</p>
               )}
@@ -141,7 +141,7 @@ export function CreateEntryDialog({ existingEntry, open: controlledOpen, onOpenC
                 <Textarea 
                   {...form.register("bug")} 
                   placeholder="Encountered an issue with..." 
-                  className="bg-background/50 border-white/10 focus:border-primary h-20"
+                  className="bg-background/50 border-border focus:border-primary h-20"
                 />
               </div>
               <div className="space-y-2">
@@ -149,7 +149,7 @@ export function CreateEntryDialog({ existingEntry, open: controlledOpen, onOpenC
                 <Textarea 
                   {...form.register("solution")} 
                   placeholder="Fixed it by..." 
-                  className="bg-background/50 border-white/10 focus:border-primary h-20"
+                  className="bg-background/50 border-border focus:border-primary h-20"
                 />
               </div>
             </div>
@@ -190,7 +190,7 @@ export function CreateEntryDialog({ existingEntry, open: controlledOpen, onOpenC
               <Input 
                 {...form.register("tags")} 
                 placeholder="react, typescript, animation (comma separated)"
-                className="bg-background/50 border-white/10 focus:border-primary"
+                className="bg-background/50 border-border focus:border-primary"
               />
             </div>
 
@@ -198,7 +198,7 @@ export function CreateEntryDialog({ existingEntry, open: controlledOpen, onOpenC
               <div className="space-y-2">
                 <Label>Project Link</Label>
                 <select 
-                  className="w-full rounded-md border border-white/10 bg-background/50 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                  className="w-full rounded-md border border-border bg-background/50 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
                   onChange={(e) => {
                     const val = parseInt(e.target.value);
                     form.setValue("projectIds", val ? [val] : []);
@@ -214,7 +214,7 @@ export function CreateEntryDialog({ existingEntry, open: controlledOpen, onOpenC
             )}
           </div>
 
-          <div className="flex justify-end gap-3 pt-4 border-t border-white/5">
+          <div className="flex justify-end gap-3 pt-4 border-t border-border">
             <Button type="button" variant="ghost" onClick={() => setOpen(false)}>Cancel</Button>
             <Button type="submit" disabled={isPending} className="bg-primary hover:bg-primary/90">
               {isPending ? (
@@ -232,3 +232,4 @@ export function CreateEntryDialog({ existingEntry, open: controlledOpen, onOpenC
     </Dialog>
   );
 }
+

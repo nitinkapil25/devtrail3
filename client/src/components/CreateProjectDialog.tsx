@@ -58,7 +58,7 @@ export function CreateProjectDialog() {
             <Input 
               {...form.register("name")} 
               placeholder="My Awesome App" 
-              className="bg-background/50 border-white/10 focus:border-primary"
+              className="bg-background/50 border-border focus:border-primary"
             />
             {form.formState.errors.name && (
               <p className="text-xs text-destructive">{form.formState.errors.name.message}</p>
@@ -70,7 +70,7 @@ export function CreateProjectDialog() {
             <Textarea 
               {...form.register("description")} 
               placeholder="A brief overview..." 
-              className="bg-background/50 border-white/10 focus:border-primary h-24"
+              className="bg-background/50 border-border focus:border-primary h-24"
             />
           </div>
 
@@ -79,7 +79,7 @@ export function CreateProjectDialog() {
             <Input 
               {...form.register("repoUrl")} 
               placeholder="https://github.com/user/repo" 
-              className="bg-background/50 border-white/10 focus:border-primary"
+              className="bg-background/50 border-border focus:border-primary"
             />
           </div>
 
@@ -101,3 +101,4 @@ export function CreateProjectDialog() {
     </Dialog>
   );
 }
+

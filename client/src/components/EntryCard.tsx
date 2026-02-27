@@ -18,7 +18,7 @@ interface EntryCardProps {
 
 export function EntryCard({ entry, onEdit, onDelete }: EntryCardProps) {
   return (
-    <div className="group relative bg-card/40 hover:bg-card/60 border border-white/5 hover:border-primary/20 rounded-2xl p-6 transition-all duration-300 hover:shadow-lg hover:shadow-primary/5 hover:-translate-y-1">
+    <div className="group relative bg-card hover:bg-accent/30 border border-border hover:border-primary/20 rounded-2xl p-6 transition-all duration-300 hover:shadow-lg hover:shadow-primary/5 hover:-translate-y-1">
       <div className="flex justify-between items-start mb-4">
         <div>
           <div className="flex items-center gap-3 mb-1">
@@ -90,7 +90,7 @@ export function EntryCard({ entry, onEdit, onDelete }: EntryCardProps) {
               </Badge>
             ))}
             {entry.tags?.map(tag => (
-              <Badge key={tag} variant="outline" className="text-xs text-muted-foreground border-white/10">
+              <Badge key={tag} variant="outline" className="text-xs text-muted-foreground border-border">
                 #{tag}
               </Badge>
             ))}
@@ -100,3 +100,4 @@ export function EntryCard({ entry, onEdit, onDelete }: EntryCardProps) {
     </div>
   );
 }
+

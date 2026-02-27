@@ -21,7 +21,7 @@ export default function Landing() {
       
       {/* Background decorations */}
       <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] bg-primary/20 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-[-10%] left-[-5%] w-[500px] h-[500px] bg-violet-600/10 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-[-10%] left-[-5%] w-[500px] h-[500px] bg-cyan-500/20 rounded-full blur-[120px] pointer-events-none" />
 
       {/* Nav */}
       <nav className="container mx-auto px-6 py-6 flex justify-between items-center z-10">
@@ -34,7 +34,7 @@ export default function Landing() {
           <SignInButton mode="modal">
             <Button 
               variant="outline" 
-              className="border-white/10 hover:bg-white/5 text-white"
+              className="border-border hover:bg-accent/60 text-foreground"
             >
               Sign In
             </Button>
@@ -45,7 +45,7 @@ export default function Landing() {
       {/* Hero */}
       <main className="flex-1 flex flex-col justify-center items-center text-center px-4 relative z-10">
         <div className="max-w-4xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-8 duration-700">
-          <div className="inline-flex items-center px-3 py-1 rounded-full bg-white/5 border border-white/10 text-sm text-primary mb-4">
+          <div className="inline-flex items-center px-3 py-1 rounded-full bg-card/80 border border-border text-sm text-primary mb-4">
             <span className="flex w-2 h-2 rounded-full bg-primary mr-2 animate-pulse"></span>
             AI-Powered Developer Journal
           </div>
@@ -64,7 +64,7 @@ export default function Landing() {
               <SignInButton mode="modal">
                 <Button 
                   size="lg"
-                  className="bg-white text-black hover:bg-white/90 text-lg px-8 h-14 rounded-full font-semibold"
+                  className="bg-primary text-primary-foreground hover:bg-primary/90 text-lg px-8 h-14 rounded-full font-semibold"
                 >
                   Get Started Free <ArrowRight className="w-5 h-5 ml-2" />
                 </Button>
@@ -93,7 +93,7 @@ export default function Landing() {
         </div>
       </main>
 
-      <footer className="py-8 text-center text-muted-foreground text-sm border-t border-white/5 mt-20">
+      <footer className="py-8 text-center text-muted-foreground text-sm border-t border-border mt-20">
         <p>© {new Date().getFullYear()} DevTrail. Built for developers.</p>
       </footer>
     </div>
@@ -104,7 +104,7 @@ export default function Landing() {
 
 function FeatureCard({ icon: Icon, title, desc }: any) {
   return (
-    <div className="p-8 rounded-3xl bg-white/[0.02] border border-white/5 hover:bg-white/[0.04] transition-colors text-left">
+    <div className="p-8 rounded-3xl bg-card border border-border hover:bg-accent/35 transition-colors text-left">
       <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-6 text-primary">
         <Icon className="w-6 h-6" />
       </div>
@@ -113,3 +113,4 @@ function FeatureCard({ icon: Icon, title, desc }: any) {
     </div>
   );
 }
+

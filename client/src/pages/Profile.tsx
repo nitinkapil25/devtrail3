@@ -69,7 +69,7 @@ export default function Profile() {
         <div className="max-w-4xl mx-auto space-y-8">
           {/* Profile Header */}
           <div className="relative">
-            <div className="h-48 bg-gradient-to-r from-primary/20 via-violet-500/10 to-blue-500/20 rounded-3xl border border-white/5"></div>
+            <div className="h-48 bg-gradient-to-r from-primary/25 via-cyan-400/20 to-amber-300/25 rounded-3xl border border-border"></div>
             <div className="absolute -bottom-16 left-8 flex items-end gap-6">
               <Avatar className="w-32 h-32 border-4 border-background shadow-2xl">
                 {user?.profileImageUrl && <AvatarImage src={user.profileImageUrl} />}
@@ -87,7 +87,7 @@ export default function Profile() {
           <div className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Sidebar Info */}
             <div className="space-y-6">
-              <Card className="bg-card/40 border-white/5">
+              <Card className="bg-card border-border">
                 <CardContent className="p-6 space-y-4">
                   <div className="flex items-center gap-3 text-sm text-muted-foreground">
                     <MapPin className="w-4 h-4" /> Earth
@@ -101,13 +101,13 @@ export default function Profile() {
                 </CardContent>
               </Card>
 
-              <Card className="bg-card/40 border-white/5">
+              <Card className="bg-card border-border">
                 <CardHeader>
                   <CardTitle className="text-lg">Top Skills</CardTitle>
                 </CardHeader>
                 <CardContent className="flex flex-wrap gap-2">
                   {topSkills.length > 0 ? topSkills.map(skill => (
-                    <Badge key={skill} variant="secondary" className="bg-white/5 hover:bg-white/10">
+                    <Badge key={skill} variant="secondary" className="bg-primary/10 text-primary hover:bg-primary/20">
                       {skill}
                     </Badge>
                   )) : (
@@ -119,7 +119,7 @@ export default function Profile() {
 
             {/* Main Content */}
             <div className="md:col-span-2 space-y-6">
-              <div className="bg-card/40 border border-white/5 rounded-2xl p-6">
+              <div className="bg-card border border-border rounded-2xl p-6">
                 <div className="flex items-center justify-between mb-4">
                   <h2 className="text-xl font-bold">About</h2>
                   {!isEditingBio && (
@@ -127,7 +127,7 @@ export default function Profile() {
                       type="button"
                       variant="outline"
                       size="sm"
-                      className="border-white/10 hover:bg-white/5"
+                      className="border-border hover:bg-accent/60"
                       onClick={() => setIsEditingBio(true)}
                     >
                       <Pencil className="w-4 h-4 mr-2" />
@@ -143,7 +143,7 @@ export default function Profile() {
                       onChange={(e) => setBioDraft(e.target.value)}
                       placeholder="Tell people a little about yourself..."
                       maxLength={300}
-                      className="min-h-[120px] bg-background/60 border-white/10"
+                      className="min-h-[120px] bg-background/60 border-border"
                     />
                     <div className="flex items-center justify-between gap-3">
                       <p className="text-xs text-muted-foreground">
@@ -180,9 +180,9 @@ export default function Profile() {
                 )}
               </div>
 
-              <div className="bg-card/40 border border-white/5 rounded-2xl p-6">
+              <div className="bg-card border border-border rounded-2xl p-6">
                 <h2 className="text-xl font-bold mb-4">Activity Heatmap</h2>
-                <div className="h-32 flex items-center justify-center text-muted-foreground bg-black/20 rounded-xl border border-white/5 border-dashed">
+                <div className="h-32 flex items-center justify-center text-muted-foreground bg-secondary/60 rounded-xl border border-border border-dashed">
                   Activity graph placeholder
                 </div>
               </div>
@@ -193,3 +193,4 @@ export default function Profile() {
     </div>
   );
 }
+

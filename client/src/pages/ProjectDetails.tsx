@@ -66,7 +66,7 @@ useEffect(() => {
           Back
         </Button>
 
-        <Card className="bg-card/40 border-white/5">
+        <Card className="bg-card border-border">
           <CardHeader className="flex flex-row justify-between items-start">
             <CardTitle className="text-2xl">
               {project.name || "Untitled Project"}
