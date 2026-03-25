@@ -7,8 +7,27 @@ import { clerk } from "./auth/clerkAuth";
 import { registerRoutes } from "./routes";
 import { serveStatic } from "./static";
 
+function assertProdKeys() {
+  if (process.env.NODE_ENV !== "production") return;
+
+  const publishable =
+    process.env.CLERK_PUBLISHABLE_KEY || process.env.VITE_CLERK_PUBLISHABLE_KEY;
+  const secret = process.env.CLERK_SECRET_KEY;
+
+  const badPub = publishable?.startsWith("pk_test_");
+  const badSecret = secret?.startsWith("sk_test_");
+
+  if (badPub || badSecret) {
+    throw new Error(
+      "Clerk production keys required (found test keys). Set live Clerk keys in environment.",
+    );
+  }
+}
+
 const app = express();
 const httpServer = createServer(app);
+
+assertProdKeys();
 
 // 🔐 Clerk
 app.use(clerk);
@@ -64,3 +83,4 @@ httpServer.listen(port, "0.0.0.0", () => {
     console.error("Startup error:", err);
   }
 })();
+

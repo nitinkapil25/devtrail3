@@ -9,12 +9,19 @@ class OpenRouterClient {
   private client: OpenAI;
 
   constructor() {
+    const httpReferer =
+      process.env.OPENROUTER_HTTP_REFERER ||
+      (process.env.NODE_ENV === "production"
+        ? "https://example.com"
+        : "http://localhost:5000");
+    const appTitle = process.env.OPENROUTER_APP_TITLE || "DevTrail";
+
     this.client = new OpenAI({
       apiKey: process.env.OPENROUTER_API_KEY!,
       baseURL: "https://openrouter.ai/api/v1",
       defaultHeaders: {
-        "HTTP-Referer": "http://localhost:5000",
-        "X-Title": "DevTrail",
+        "HTTP-Referer": httpReferer,
+        "X-Title": appTitle,
       },
     });
   }
