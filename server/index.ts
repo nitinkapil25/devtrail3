@@ -42,6 +42,14 @@ app.use(
 );
 app.use(express.urlencoded({ extended: false }));
 
+// Handle HEAD requests globally (e.g., uptime monitors)
+app.use((req, res, next) => {
+  if (req.method === "HEAD") {
+    return res.status(200).end();
+  }
+  next();
+});
+
 // 📁 Static (for assets if any)
 app.use(express.static(path.join(process.cwd(), "client/public")));
 
@@ -83,4 +91,6 @@ httpServer.listen(port, "0.0.0.0", () => {
     console.error("Startup error:", err);
   }
 })();
+
+
 
