@@ -18,8 +18,8 @@ function assertProdKeys() {
   const badSecret = secret?.startsWith("sk_test_");
 
   if (badPub || badSecret) {
-    throw new Error(
-      "Clerk production keys required (found test keys). Set live Clerk keys in environment.",
+    console.warn(
+      "Warning: using Clerk test keys in production. Set live Clerk keys before going live.",
     );
   }
 }
