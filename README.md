@@ -10,7 +10,7 @@ The platform allows developers to track projects, record learning milestones, an
 
 - Frontend: React, TypeScript, Vite, Tailwind CSS, shadcn/ui, TanStack Query, Wouter
 - Backend: Node.js, Express, TypeScript
-- Database: PostgreSQL + Drizzle ORM
+- Database: MongoDB Atlas 
 - Auth: Clerk
 - AI: OpenRouter (OpenAI-compatible API)
 
@@ -40,7 +40,7 @@ drizzle.config.ts      Drizzle configuration
 
 - Node.js 
 - npm
-- PostgreSQL database (local or hosted)
+- MongoDB Atlas database connection string
 - Clerk application keys
 - OpenRouter API key
 
@@ -49,7 +49,7 @@ drizzle.config.ts      Drizzle configuration
 Create a root `.env`:
 
 ```env
-DATABASE_URL=postgresql://USER:PASSWORD@HOST:PORT/DB_NAME
+DATABASE_URL=mongodb+srv://USER:PASSWORD@HOST/DB_NAME?retryWrites=true&w=majority
 OPENROUTER_API_KEY=your_openrouter_key
 
 CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key
@@ -71,7 +71,7 @@ VITE_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key
 npm install
 ```
 
-2. Push schema to database:
+2. Sync or prepare the database, if your current backend setup requires it:
 
 ```bash
 npm run db:push
@@ -91,7 +91,7 @@ App runs on `http://localhost:5000`.
 - `npm run build`: build production output to `dist/`
 - `npm run start`: run production build
 - `npm run check`: TypeScript type-check
-- `npm run db:push`: push Drizzle schema to PostgreSQL
+- `npm run db:push`: push the database schema when using the Drizzle setup
 
 ## API Overview
 
